@@ -1,6 +1,6 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
-# تثبيت جميع المتطلبات النظامية
+# تثبيت المتطلبات الأساسية
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -8,21 +8,20 @@ RUN apt-get update && apt-get install -y \
     tesseract-ocr-ara \
     poppler-utils \
     ghostscript \
-    libglib2.0-0 \
-    libsm6 \
-    libxext6 \
-    libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# إنشاء رابط لبايثون
+# إنشاء رابط رمزي لبايثون
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 WORKDIR /app
 
+# نسخ متطلبات بايثون
 COPY requirements.txt .
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
 
+# تثبيت متطلبات بايثون
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# نسخ ملفات التطبيق
 COPY . .
 
 CMD ["python", "app.py"]

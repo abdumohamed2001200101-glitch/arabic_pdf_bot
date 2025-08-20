@@ -18,6 +18,7 @@ WORKDIR /app
 # نسخ متطلبات بايثون
 COPY requirements.txt .
 
+RUN python -m pip install --upgrade pip setuptools wheel
 # تثبيت متطلبات بايثون
 RUN pip3 install --no-cache-dir -r requirements.txt
 
